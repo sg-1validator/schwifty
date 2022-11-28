@@ -20,6 +20,15 @@ func (k msgServer) CreateNft(goCtx context.Context, msg *types.MsgCreateNft) (*t
 		UriHash:      msg.UriHash,
 		Data:         msg.Data,
 	}
+	
+	collection, found := k.GetCollection(ctx, nft.CollectionId)
+	if !found {
+        return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "key %d doesn't exist")
+    }
+
+	if msg.Creator != collection.Owner {
+        return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Not the owner of the collection, cannot create new NFTs here")
+    }
 
 	id := k.AppendNft(
 		ctx,
@@ -43,6 +52,15 @@ func (k msgServer) UpdateNft(goCtx context.Context, msg *types.MsgUpdateNft) (*t
 		UriHash:      msg.UriHash,
 		Data:         msg.Data,
 	}
+
+	collection, found := k.GetCollection(ctx, nft.CollectionId)
+	if !found {
+        return nil, sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "key %d doesn't exist", msg.Id)
+    }
+
+	if msg.Creator != collection.Owner {
+        return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Not the owner of the collection, cannot create new NFTs here")
+    }
 
 	// Checks that the element exists
 	val, found := k.GetNft(ctx, msg.Id)
@@ -68,6 +86,15 @@ func (k msgServer) DeleteNft(goCtx context.Context, msg *types.MsgDeleteNft) (*t
 	if !found {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, fmt.Sprintf("key %d doesn't exist", msg.Id))
 	}
+
+	collection, found := k.GetCollection(ctx, val.CollectionId)
+	if !found {
+        return nil, sdkerrors.Wrapf(sdkerrors.ErrKeyNotFound, "collection key %d doesn't exist", val.CollectionId)
+    }
+
+	if msg.Creator != collection.Owner {
+        return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Not the owner of the collection, cannot create new NFTs here")
+    }
 
 	// Checks if the msg creator is the same as the current owner
 	if msg.Creator != val.Creator {
