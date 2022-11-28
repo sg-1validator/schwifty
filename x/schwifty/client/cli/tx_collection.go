@@ -12,24 +12,23 @@ import (
 
 func CmdCreateCollection() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-collection [owner] [name] [description] [ticker] [uri] [uri-hash] [data]",
+		Use:   "create-collection [name] [description] [ticker] [uri] [uri-hash] [data]",
 		Short: "Create a new collection",
-		Args:  cobra.ExactArgs(7),
+		Args:  cobra.ExactArgs(6),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			argOwner := args[0]
-			argName := args[1]
-			argDescription := args[2]
-			argTicker := args[3]
-			argUri := args[4]
-			argUriHash := args[5]
-			argData := args[6]
+			argName := args[0]
+			argDescription := args[1]
+			argTicker := args[2]
+			argUri := args[3]
+			argUriHash := args[4]
+			argData := args[5]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			msg := types.NewMsgCreateCollection(clientCtx.GetFromAddress().String(), argOwner, argName, argDescription, argTicker, argUri, argUriHash, argData)
+			msg := types.NewMsgCreateCollection(clientCtx.GetFromAddress().String(), clientCtx.GetFromAddress().String(), argName, argDescription, argTicker, argUri, argUriHash, argData)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}

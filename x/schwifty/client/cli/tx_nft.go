@@ -13,25 +13,24 @@ import (
 
 func CmdCreateNft() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-nft [collection-id] [owner] [uri] [uri-hash] [data]",
+		Use:   "create-nft [collection-id] [uri] [uri-hash] [data]",
 		Short: "Create a new nft",
-		Args:  cobra.ExactArgs(5),
+		Args:  cobra.ExactArgs(4),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argCollectionId, err := cast.ToUint64E(args[0])
 			if err != nil {
 				return err
 			}
-			argOwner := args[1]
-			argUri := args[2]
-			argUriHash := args[3]
-			argData := args[4]
+			argUri := args[1]
+			argUriHash := args[2]
+			argData := args[3]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			msg := types.NewMsgCreateNft(clientCtx.GetFromAddress().String(), argCollectionId, argOwner, argUri, argUriHash, argData)
+			msg := types.NewMsgCreateNft(clientCtx.GetFromAddress().String(), argCollectionId, clientCtx.GetFromAddress().String(), argUri, argUriHash, argData)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
