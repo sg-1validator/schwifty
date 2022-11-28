@@ -1,0 +1,14 @@
+syntax = "proto3";
+package toschdev.schwifty.schwifty;
+
+import "gogoproto/gogo.proto";
+import "schwifty/schwifty/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/toschdev/schwifty/x/schwifty/types";
+
+// GenesisState defines the schwifty module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}

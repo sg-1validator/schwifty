@@ -10,11 +10,11 @@ import (
 	"github.com/cosmos/interchain-security/tests/e2e"
 	e2etestutil "github.com/cosmos/interchain-security/testutil/e2e"
 	icssimapp "github.com/cosmos/interchain-security/testutil/simapp"
-	appConsumer "github.com/toschdev/schwifty/app"
-	"github.com/toschdev/schwifty/cmd"
 	"github.com/stretchr/testify/suite"
 	"github.com/tendermint/tendermint/libs/log"
 	dbm "github.com/tendermint/tm-db"
+	appConsumer "github.com/toschdev/schwifty/app"
+	"github.com/toschdev/schwifty/cmd"
 )
 
 // Executes the standard group of ccv tests against a consumer and provider app.go implementation.
