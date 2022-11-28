@@ -1,6 +1,8 @@
 # schwifty
 **schwifty** is a blockchain built using Cosmos SDK and Tendermint
 
+![GOT](./GOT.png)
+
 Get SCHWIFTY
 
 https://www.youtube.com/watch?v=I1188GO4p1E
