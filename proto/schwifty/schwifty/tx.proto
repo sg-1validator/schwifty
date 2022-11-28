@@ -1,13 +1,53 @@
 syntax = "proto3";
 package toschdev.schwifty.schwifty;
 
+import "schwifty/schwifty/collection.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/toschdev/schwifty/x/schwifty/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+    rpc CreateCollection(MsgCreateCollection) returns (MsgCreateCollectionResponse);
+  rpc UpdateCollection(MsgUpdateCollection) returns (MsgUpdateCollectionResponse);
+  rpc DeleteCollection(MsgDeleteCollection) returns (MsgDeleteCollectionResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
 }
+
+message MsgCreateCollection {
+  string creator = 1;
+  string owner = 2;
+  string name = 3;
+  string description = 4;
+  string ticker = 5;
+  string uri = 6;
+  string uriHash = 7;
+  string data = 8;
+}
+
+message MsgCreateCollectionResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateCollection {
+  string creator = 1;
+  uint64 id = 2;
+  string owner = 3;
+  string name = 4;
+  string description = 5;
+  string ticker = 6;
+  string uri = 7;
+  string uriHash = 8;
+  string data = 9;
+}
+
+message MsgUpdateCollectionResponse {}
+
+message MsgDeleteCollection {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgDeleteCollectionResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

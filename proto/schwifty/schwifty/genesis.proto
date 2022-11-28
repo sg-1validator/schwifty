@@ -3,6 +3,7 @@ package toschdev.schwifty.schwifty;
 
 import "gogoproto/gogo.proto";
 import "schwifty/schwifty/params.proto";
+import "schwifty/schwifty/collection.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/toschdev/schwifty/x/schwifty/types";
@@ -10,5 +11,7 @@ option go_package = "github.com/toschdev/schwifty/x/schwifty/types";
 // GenesisState defines the schwifty module's genesis state.
 message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
+  repeated Collection collectionList = 2 [(gogoproto.nullable) = false];
+  uint64 collectionCount = 3;
   // this line is used by starport scaffolding # genesis/proto/state
 }

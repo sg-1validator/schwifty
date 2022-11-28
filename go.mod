@@ -3,6 +3,7 @@ module github.com/toschdev/schwifty
 go 1.18
 
 require (
+	cosmossdk.io/math v1.0.0-beta.4
 	github.com/cosmos/admin-module v0.0.0
 	github.com/cosmos/cosmos-sdk v0.45.7-0.20221104161803-456ca5663c5e
 	github.com/cosmos/ibc-go/v3 v3.0.0
@@ -13,7 +14,7 @@ require (
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/cobra v1.4.0
 	github.com/spf13/pflag v1.0.5
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.1
 	github.com/tendermint/tendermint v0.34.19
 	github.com/tendermint/tm-db v0.6.7
 	google.golang.org/genproto v0.0.0-20221114212237-e4508ebdbee1

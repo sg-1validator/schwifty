@@ -1,0 +1,16 @@
+syntax = "proto3";
+package toschdev.schwifty.schwifty;
+
+option go_package = "github.com/toschdev/schwifty/x/schwifty/types";
+
+message Collection {
+  uint64 id = 1;
+  string owner = 2; 
+  string name = 3; 
+  string description = 4; 
+  string ticker = 5; 
+  string uri = 6; 
+  string uriHash = 7; 
+  string data = 8; 
+  string creator = 9;
+}
