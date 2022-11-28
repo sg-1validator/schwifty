@@ -19,7 +19,19 @@ Come up with a moniker for your node, then run:
 schwiftyd init $MONIKER
 ```
  
- 
+## Create a NFT collection
+
+```
+Use:   "create-collection [owner] [name] [description] [ticker] [uri] [uri-hash] [data]"
+Short: "Create a new collection"
+```
+
+## Create new NFT within a collection
+
+```
+Use:   "create-nft [collection-id] [owner] [uri] [uri-hash] [data]"
+Short: "Create a new nft"
+``` 
  
 ## Launch with genesis file or run as standalone chain
 
