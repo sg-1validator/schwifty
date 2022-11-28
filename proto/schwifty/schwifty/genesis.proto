@@ -4,6 +4,7 @@ package toschdev.schwifty.schwifty;
 import "gogoproto/gogo.proto";
 import "schwifty/schwifty/params.proto";
 import "schwifty/schwifty/collection.proto";
+import "schwifty/schwifty/nft.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/toschdev/schwifty/x/schwifty/types";
@@ -13,5 +14,7 @@ message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
   repeated Collection collectionList = 2 [(gogoproto.nullable) = false];
   uint64 collectionCount = 3;
+  repeated Nft nftList = 4 [(gogoproto.nullable) = false];
+  uint64 nftCount = 5;
   // this line is used by starport scaffolding # genesis/proto/state
 }

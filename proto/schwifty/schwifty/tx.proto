@@ -2,6 +2,7 @@ syntax = "proto3";
 package toschdev.schwifty.schwifty;
 
 import "schwifty/schwifty/collection.proto";
+import "schwifty/schwifty/nft.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/toschdev/schwifty/x/schwifty/types";
@@ -11,6 +12,9 @@ service Msg {
     rpc CreateCollection(MsgCreateCollection) returns (MsgCreateCollectionResponse);
   rpc UpdateCollection(MsgUpdateCollection) returns (MsgUpdateCollectionResponse);
   rpc DeleteCollection(MsgDeleteCollection) returns (MsgDeleteCollectionResponse);
+rpc CreateNft(MsgCreateNft) returns (MsgCreateNftResponse);
+  rpc UpdateNft(MsgUpdateNft) returns (MsgUpdateNftResponse);
+  rpc DeleteNft(MsgDeleteNft) returns (MsgDeleteNftResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -49,5 +53,37 @@ message MsgDeleteCollection {
 }
 
 message MsgDeleteCollectionResponse {}
+
+message MsgCreateNft {
+  string creator = 1;
+  uint64 collectionId = 2;
+  string owner = 3;
+  string uri = 4;
+  string uriHash = 5;
+  string data = 6;
+}
+
+message MsgCreateNftResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateNft {
+  string creator = 1;
+  uint64 id = 2;
+  uint64 collectionId = 3;
+  string owner = 4;
+  string uri = 5;
+  string uriHash = 6;
+  string data = 7;
+}
+
+message MsgUpdateNftResponse {}
+
+message MsgDeleteNft {
+  string creator = 1;
+  uint64 id = 2;
+}
+
+message MsgDeleteNftResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

@@ -1,0 +1,14 @@
+syntax = "proto3";
+package toschdev.schwifty.schwifty;
+
+option go_package = "github.com/toschdev/schwifty/x/schwifty/types";
+
+message Nft {
+  uint64 id = 1;
+  uint64 collectionId = 2; 
+  string owner = 3; 
+  string uri = 4; 
+  string uriHash = 5; 
+  string data = 6; 
+  string creator = 7;
+}

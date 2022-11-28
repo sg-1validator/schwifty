@@ -22,3 +22,8 @@ const (
 	CollectionKey      = "Collection/value/"
 	CollectionCountKey = "Collection/count/"
 )
+
+const (
+	NftKey      = "Nft/value/"
+	NftCountKey = "Nft/count/"
+)
