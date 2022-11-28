@@ -1,6 +1,8 @@
 package app
 
 import (
+	schwifty "github.com/toschdev/schwifty/x/schwifty/keeper"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
@@ -12,6 +14,7 @@ import (
 
 type HandlerOptions struct {
 	ante.HandlerOptions
+	schwiftykeeper schwifty.Keeper
 	IBCKeeper      *ibckeeper.Keeper
 	ConsumerKeeper ibcconsumerkeeper.Keeper
 }

@@ -89,6 +89,9 @@ import (
 	dbm "github.com/tendermint/tm-db"
 
 	"github.com/toschdev/schwifty/cmd"
+	schwiftymodule "github.com/toschdev/schwifty/x/schwifty"
+	schwiftymodulekeeper "github.com/toschdev/schwifty/x/schwifty/keeper"
+	schwiftymoduletypes "github.com/toschdev/schwifty/x/schwifty/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -136,6 +139,7 @@ var (
 				upgraderest.ProposalCancelRESTHandler,
 			),
 		),
+		schwiftymodule.AppModuleBasic{},
 	)
 
 	// module account permissions
@@ -145,6 +149,7 @@ var (
 		ibctransfertypes.ModuleName:                   {authtypes.Minter, authtypes.Burner},
 		ccvconsumertypes.ConsumerRedistributeName:     nil,
 		ccvconsumertypes.ConsumerToSendToProviderName: nil,
+		schwiftymoduletypes.ModuleName:                nil,
 	}
 )
 
@@ -203,6 +208,8 @@ type App struct {
 	ScopedICAHostKeeper     capabilitykeeper.ScopedKeeper
 	ScopedCCVConsumerKeeper capabilitykeeper.ScopedKeeper
 
+	SchwiftyKeeper    schwiftymodulekeeper.Keeper
+
 	// mm is the module manager
 	mm *module.Manager
 
@@ -237,7 +244,7 @@ func New(
 		authtypes.StoreKey, authz.ModuleName, banktypes.StoreKey, slashingtypes.StoreKey,
 		paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey, evidencetypes.StoreKey,
 		ibctransfertypes.StoreKey, icahosttypes.StoreKey, capabilitytypes.StoreKey, ccvconsumertypes.StoreKey,
-		adminmodulemoduletypes.StoreKey,
+		adminmodulemoduletypes.StoreKey, schwiftymoduletypes.StoreKey,
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
 	memKeys := sdk.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
@@ -355,6 +362,7 @@ func New(
 	var transferStack ibcporttypes.IBCModule
 	transferModule := transfer.NewAppModule(app.TransferKeeper)
 	transferStack = transfer.NewIBCModule(app.TransferKeeper)
+	transferStack = schwiftymodule.NewIBCMiddleware(transferStack, app.SchwiftyKeeper)
 
 	app.ICAHostKeeper = icahostkeeper.NewKeeper(
 		appCodec, keys[icahosttypes.StoreKey],
@@ -413,6 +421,16 @@ func New(
 	)
 	adminModule := adminmodulemodule.NewAppModule(appCodec, app.AdminmoduleKeeper)
 
+	app.SchwiftyKeeper = *schwiftymodulekeeper.NewKeeper(
+		appCodec,
+		keys[schwiftymoduletypes.StoreKey],
+		keys[schwiftymoduletypes.MemStoreKey],
+		app.GetSubspace(schwiftymoduletypes.ModuleName),
+
+		app.BankKeeper,
+	)
+	schwiftyModule := schwiftymodule.NewAppModule(appCodec, app.SchwiftyKeeper, app.AccountKeeper, app.BankKeeper)
+
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := ibcporttypes.NewRouter()
 	ibcRouter.AddRoute(icahosttypes.SubModuleName, icaHostIBCModule).
@@ -447,6 +465,7 @@ func New(
 		icaModule,
 		consumerModule,
 		adminModule,
+		schwiftyModule,
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -471,6 +490,7 @@ func New(
 		vestingtypes.ModuleName,
 		ccvconsumertypes.ModuleName,
 		adminmodulemoduletypes.ModuleName,
+		schwiftymoduletypes.ModuleName,
 	)
 
 	app.mm.SetOrderEndBlockers(
@@ -490,6 +510,7 @@ func New(
 		vestingtypes.ModuleName,
 		ccvconsumertypes.ModuleName,
 		adminmodulemoduletypes.ModuleName,
+		schwiftymoduletypes.ModuleName,
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -514,6 +535,7 @@ func New(
 		vestingtypes.ModuleName,
 		ccvconsumertypes.ModuleName,
 		adminmodulemoduletypes.ModuleName,
+		schwiftymoduletypes.ModuleName,
 	)
 
 	// Uncomment if you want to set a custom migration order here.
@@ -537,6 +559,7 @@ func New(
 		evidence.NewAppModule(app.EvidenceKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
+		schwiftyModule,
 	)
 	app.sm.RegisterStoreDecoders()
 
@@ -558,6 +581,7 @@ func New(
 				SignModeHandler: encodingConfig.TxConfig.SignModeHandler(),
 				SigGasConsumer:  ante.DefaultSigVerificationGasConsumer,
 			},
+			schwiftykeeper: app.SchwiftyKeeper,
 			IBCKeeper:      app.IBCKeeper,
 			ConsumerKeeper: app.ConsumerKeeper,
 		},
@@ -731,6 +755,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(icahosttypes.SubModuleName)
 	paramsKeeper.Subspace(ccvconsumertypes.ModuleName)
+	paramsKeeper.Subspace(schwiftymoduletypes.ModuleName)
 
 	return paramsKeeper
 }
