@@ -22,7 +22,25 @@ Come up with a moniker for your node, then run:
 ```
 schwiftyd init $MONIKER
 ```
- 
+
+## Available commands
+
+```
+Usage:
+  schwiftyd tx schwifty [flags]
+  schwiftyd tx schwifty [command]
+
+Available Commands:
+  create-collection Create a new collection
+  create-nft        Create a new nft
+  delete-collection Delete a collection by id
+  delete-nft        Delete a nft by id
+  update-collection Update a collection
+  update-nft        Update a nft
+
+```
+
+
 ## Create a NFT collection
 
 ```

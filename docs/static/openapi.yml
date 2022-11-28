@@ -23693,6 +23693,408 @@ paths:
           type: string
       tags:
         - Query
+  /toschdev/schwifty/schwifty/collection:
+    get:
+      summary: Queries a list of Collection items.
+      operationId: ToschdevSchwiftySchwiftyCollectionAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              Collection:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uint64
+                    owner:
+                      type: string
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    ticker:
+                      type: string
+                    uri:
+                      type: string
+                    uriHash:
+                      type: string
+                    data:
+                      type: string
+                    creator:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  /toschdev/schwifty/schwifty/collection/{id}:
+    get:
+      summary: Queries a Collection by id.
+      operationId: ToschdevSchwiftySchwiftyCollection
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              Collection:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uint64
+                  owner:
+                    type: string
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  ticker:
+                    type: string
+                  uri:
+                    type: string
+                  uriHash:
+                    type: string
+                  data:
+                    type: string
+                  creator:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          format: uint64
+      tags:
+        - Query
+  /toschdev/schwifty/schwifty/nft:
+    get:
+      summary: Queries a list of Nft items.
+      operationId: ToschdevSchwiftySchwiftyNftAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              Nft:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uint64
+                    collectionId:
+                      type: string
+                      format: uint64
+                    owner:
+                      type: string
+                    uri:
+                      type: string
+                    uriHash:
+                      type: string
+                    data:
+                      type: string
+                    creator:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  /toschdev/schwifty/schwifty/nft/{id}:
+    get:
+      summary: Queries a Nft by id.
+      operationId: ToschdevSchwiftySchwiftyNft
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              Nft:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uint64
+                  collectionId:
+                    type: string
+                    format: uint64
+                  owner:
+                    type: string
+                  uri:
+                    type: string
+                  uriHash:
+                    type: string
+                  data:
+                    type: string
+                  creator:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          format: uint64
+      tags:
+        - Query
+  /toschdev/schwifty/schwifty/params:
+    get:
+      summary: Parameters queries the parameters of the module.
+      operationId: ToschdevSchwiftySchwiftyParams
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              params:
+                description: params holds all the parameters of this module.
+                type: object
+            description: >-
+              QueryParamsResponse is response type for the Query/Params RPC
+              method.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
 definitions:
   cosmos.adminmodule.adminmodule.MsgAddAdminResponse:
     type: object
@@ -43239,3 +43641,222 @@ definitions:
         type: string
         format: int64
     title: ValidatorUpdate
+  toschdev.schwifty.schwifty.Collection:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+      owner:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      ticker:
+        type: string
+      uri:
+        type: string
+      uriHash:
+        type: string
+      data:
+        type: string
+      creator:
+        type: string
+  toschdev.schwifty.schwifty.MsgCreateCollectionResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+  toschdev.schwifty.schwifty.MsgCreateNftResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+  toschdev.schwifty.schwifty.MsgDeleteCollectionResponse:
+    type: object
+  toschdev.schwifty.schwifty.MsgDeleteNftResponse:
+    type: object
+  toschdev.schwifty.schwifty.MsgUpdateCollectionResponse:
+    type: object
+  toschdev.schwifty.schwifty.MsgUpdateNftResponse:
+    type: object
+  toschdev.schwifty.schwifty.Nft:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+      collectionId:
+        type: string
+        format: uint64
+      owner:
+        type: string
+      uri:
+        type: string
+      uriHash:
+        type: string
+      data:
+        type: string
+      creator:
+        type: string
+  toschdev.schwifty.schwifty.Params:
+    type: object
+    description: Params defines the parameters for the module.
+  toschdev.schwifty.schwifty.QueryAllCollectionResponse:
+    type: object
+    properties:
+      Collection:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uint64
+            owner:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            ticker:
+              type: string
+            uri:
+              type: string
+            uriHash:
+              type: string
+            data:
+              type: string
+            creator:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  toschdev.schwifty.schwifty.QueryAllNftResponse:
+    type: object
+    properties:
+      Nft:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uint64
+            collectionId:
+              type: string
+              format: uint64
+            owner:
+              type: string
+            uri:
+              type: string
+            uriHash:
+              type: string
+            data:
+              type: string
+            creator:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  toschdev.schwifty.schwifty.QueryGetCollectionResponse:
+    type: object
+    properties:
+      Collection:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uint64
+          owner:
+            type: string
+          name:
+            type: string
+          description:
+            type: string
+          ticker:
+            type: string
+          uri:
+            type: string
+          uriHash:
+            type: string
+          data:
+            type: string
+          creator:
+            type: string
+  toschdev.schwifty.schwifty.QueryGetNftResponse:
+    type: object
+    properties:
+      Nft:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uint64
+          collectionId:
+            type: string
+            format: uint64
+          owner:
+            type: string
+          uri:
+            type: string
+          uriHash:
+            type: string
+          data:
+            type: string
+          creator:
+            type: string
+  toschdev.schwifty.schwifty.QueryParamsResponse:
+    type: object
+    properties:
+      params:
+        description: params holds all the parameters of this module.
+        type: object
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
