@@ -55,7 +55,7 @@ func (k msgServer) UpdateCollection(goCtx context.Context, msg *types.MsgUpdateC
 	}
 
 	// Checks if the msg creator is the same as the current owner
-	if msg.Creator != val.Creator {
+	if msg.Creator != val.Owner {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
@@ -74,7 +74,7 @@ func (k msgServer) DeleteCollection(goCtx context.Context, msg *types.MsgDeleteC
 	}
 
 	// Checks if the msg creator is the same as the current owner
-	if msg.Creator != val.Creator {
+	if msg.Creator != val.Owner {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
